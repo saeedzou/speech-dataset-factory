@@ -9,6 +9,11 @@ A configurable pipeline for creating speech datasets for tasks like Automatic Sp
 - **Speaker Diarization**: Identifies and labels different speakers in the audio so that each utterance has only one speaker.
 - **Voice Activity Detection (VAD)**: Further segments the diarized audio to more fine-grained utterances.
 - **Configurable Segmentation**: Allows for customization of segment length and merging gaps.
+- **Audio Quality Metrics**: Calculates Signal-to-Noise Ratio (SNR) and C50 (clarity) metrics for each audio segment.
+- **Language Detection**: Identifies the language of each speech segment.
+- **Speaker Clustering**: Groups speaker embeddings across multiple audio files to assign consistent, unique speaker IDs.
+- **Filtering**: Provides tools to filter the dataset based on audio quality and language.
+- **Automatic Speech Recognition (ASR)**: Transcribes audio segments using state-of-the-art models like NeMo and Whisper.
 
 ## Project Structure
 
