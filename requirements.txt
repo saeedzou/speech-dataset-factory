@@ -2,3 +2,5 @@
 onnxruntime-gpu
 pydub
 pyannote.audio
+librosa
+nemo_toolkit['asr']
