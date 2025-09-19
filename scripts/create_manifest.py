@@ -91,7 +91,7 @@ if __name__ == '__main__':
     )
 
     parser.add_argument(
-        "--embedding_dir",
+        "--embeddings_dir",
         required=True,
         type=str,
         help="Path to the directory containing embedding files."
@@ -112,5 +112,5 @@ if __name__ == '__main__':
     )
     
     args = parser.parse_args()
-    create_manifest(args.audio_dir, args.embedding_dir, args.manifest_path, args.num_workers)
+    create_manifest(args.audio_dir, args.embeddings_dir, args.manifest_path, args.num_workers)
 
