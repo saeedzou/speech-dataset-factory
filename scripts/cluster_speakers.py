@@ -224,13 +224,13 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        '--manifest_path',
+        '--input_manifest',
         type=str,
         required=True,
         help='Path to the input JSON manifest file (one JSON object per line).'
     )
     parser.add_argument(
-        '--output_manifest_path',
+        '--output_manifest',
         type=str,
         required=True,
         help='Path to write the output JSON manifest with the added `unique_speaker_id`.'
