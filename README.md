@@ -20,7 +20,7 @@ A configurable pipeline for creating speech datasets for tasks like Automatic Sp
 ```bash
 speech-dataset-factory/
 ├── scripts/
-│   ├── preprocessing/
+│   ├── post-processing/
 │   │   ├── calculate_asr_metrics.py
 │   │   ├── create_manifest.py
 │   │   ├── filter_language.py
@@ -115,7 +115,7 @@ python -m scripts.calculate_quality_metrics \
 Then remove low quality utterances based on their SNR and C50 metrics.
 
 ```bash
-python -m scripts.preprocessing.filter_low_quality_samples \
+python -m scripts.post-processing.filter_low_quality_samples \
     --input_manifest data/manifest_metrics.json \ # Path to the input manifest file with metrics
     --output_manifest data/manifest_metrics_filtered.json \ # Path for the output manifest file with filtered samples
     --min_snr 25 \ # Minimum SNR threshold (dB)
@@ -135,7 +135,7 @@ python -m scripts.detect_language \
 Then, you can filter the manifest by language using the following command:
 
 ```bash
-python -m scripts.preprocessing.filter_language \
+python -m scripts.post-processing.filter_language \
     --input_manifest data/manifest_metrics_filtered_language.json \ # Path to the input manifest file with detected languages
     --output_manifest data/manifest_metrics_filtered_language_filtered.json \ # Path for the output manifest file with filtered samples
     --lang fa \ # Language code to filter by
@@ -184,7 +184,7 @@ python -m scripts.asr \
 After transcribing the audio segments with two different models, you can calculate the ASR metrics (Word Error Rate and Character Error Rate). Use the stronger model's predictions as a proxy for the weaker model's ground truth.
 
 ```bash
-python -m scripts.preprocessing.calculate_asr_metrics \
+python -m scripts.calculate_asr_metrics \
     data/manifest_metrics_filtered_language_filtered_speakers_transcribed_whisper.json \
     data/manifest_metrics_filtered_language_filtered_speakers_transcribed_nemo.json \
     --output_manifest data/manifest_metrics_filtered_language_filtered_speakers_transcribed_metrics.json
