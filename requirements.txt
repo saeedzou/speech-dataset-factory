@@ -5,3 +5,4 @@ pyannote.audio
 librosa
 nemo_toolkit[asr]
 faster_whisper
+https://github.com/marianne-m/brouhaha-vad/archive/main.zip
