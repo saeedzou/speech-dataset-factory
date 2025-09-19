@@ -25,7 +25,7 @@ def process_file(filepath):
         # Suppress printing errors for cleaner tqdm output
         return None
 
-def create_manifest(audio_dir, manifest_path, num_workers):
+def create_manifest(audio_dir, embedding_dir, manifest_path, num_workers):
     """
     Scans a directory for .mp3 files, extracts their duration in parallel,
     and writes metadata with relative paths to a JSON manifest file.
@@ -60,6 +60,7 @@ def create_manifest(audio_dir, manifest_path, num_workers):
                 if result:
                     results.append(result)
                 pbar.update()
+    results.sort(key=lambda x: os.path.basename(x[0]))
 
     # 3. Write results to the manifest file using paths relative to the current directory
     with open(manifest_path, 'w', encoding='utf-8') as f:
@@ -68,7 +69,10 @@ def create_manifest(audio_dir, manifest_path, num_workers):
             # We normalize path separators to forward slashes for consistency.
             entry = {
                 'audio_filepath': file_path.replace(os.sep, '/'),
-                'duration': duration
+                'duration': duration,
+                'speaker_id': os.path.basename(file_path).split('_')[1],
+                'embedding_file': os.path.join(embedding_dir, 
+                                               "_".join(os.path.basename(file_path.replace('.mp3', '')).split('_')[:-2]) + ".npy")
             }
             f.write(json.dumps(entry) + '\n')
     
@@ -85,7 +89,14 @@ if __name__ == '__main__':
         type=str,
         help="Path to the directory containing .mp3 files. Output paths will be relative to this."
     )
-    
+
+    parser.add_argument(
+        "--embedding_dir",
+        required=True,
+        type=str,
+        help="Path to the directory containing embedding files."
+    )
+
     parser.add_argument(
         "--manifest_path",
         required=True,
@@ -101,5 +112,5 @@ if __name__ == '__main__':
     )
     
     args = parser.parse_args()
-    create_manifest(args.audio_dir, args.manifest_path, args.num_workers)
+    create_manifest(args.audio_dir, args.embedding_dir, args.manifest_path, args.num_workers)
 
