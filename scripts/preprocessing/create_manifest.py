@@ -70,7 +70,7 @@ def create_manifest(audio_dir, embedding_dir, manifest_path, num_workers):
             entry = {
                 'audio_filepath': file_path.replace(os.sep, '/'),
                 'duration': duration,
-                'speaker_id': os.path.basename(file_path).split('_')[1],
+                'speaker_id': os.path.basename(file_path).split('_')[-2],
                 'embedding_file': os.path.join(embedding_dir, 
                                                "_".join(os.path.basename(file_path.replace('.mp3', '')).split('_')[:-2]) + ".npy")
             }
