@@ -21,12 +21,14 @@ A configurable pipeline for creating speech datasets for tasks like Automatic Sp
 speech-dataset-factory/
 ├── scripts/
 │   ├── post-processing/
-│   │   ├── calculate_asr_metrics.py
-│   │   ├── create_manifest.py
+│   │   ├── filter_asr_errors.py
 │   │   ├── filter_language.py
 │   │   └── filter_low_quality_samples.py
 │   ├── asr.py
+│   ├── calculate_asr_metrics.py
+│   ├── calculate_quality_metrics.py
 │   ├── cluster_speakers.py
+│   ├── create_manifest.py
 │   ├── detect_language.py
 │   └── process_and_segment.py
 ├── src/
@@ -188,3 +190,15 @@ python -m scripts.calculate_asr_metrics \
     data/manifest_metrics_filtered_language_filtered_speakers_transcribed_whisper.json \
     data/manifest_metrics_filtered_language_filtered_speakers_transcribed_nemo.json \
     --output_manifest data/manifest_metrics_filtered_language_filtered_speakers_transcribed_metrics.json
+```
+
+After calculating the ASR metrics, you can use the `filter_asr_errors.py` script to remove any segments that exceed the specified WER/CER thresholds or have insufficient length. This helps to ensure that only high-quality transcriptions are retained for further analysis or model training.
+
+```bash
+python -m scripts.post-processing.filter_asr_errors \
+    --input_manifest data/manifest_metrics_filtered_language_filtered_speakers_transcribed_metrics.json \
+    --output_manifest data/manifest_metrics_filtered_language_filtered_speakers_transcribed_metrics_filtered.json \
+    --max_wer 0.15 \
+    --max_cer 0.1 \
+    --min_chars 3
+```
