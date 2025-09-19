@@ -4,3 +4,4 @@ pydub
 pyannote.audio
 librosa
 nemo_toolkit['asr']
+faster_whisper
