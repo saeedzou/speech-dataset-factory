@@ -262,8 +262,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     cluster_and_update_manifest(
-        args.manifest_path,
-        args.output_manifest_path,
+        args.input_manifest,
+        args.output_manifest,
         args.eps,
         args.min_samples,
         args.embedding_dim,
