@@ -17,14 +17,15 @@ def speaker_diarization(audio, dia_pipeline, device):
     waveform = torch.tensor(audio["waveform"]).to(device)
     waveform = torch.unsqueeze(waveform, 0)
 
-    segments, embeddings = dia_pipeline(
+    output = dia_pipeline(
         {
             "waveform": waveform,
             "sample_rate": audio["sample_rate"],
             "channel": 0,
-        },
-        return_embeddings=True
+        }
     )
+    segments = output.speaker_diarization
+    embeddings = output.speaker_embeddings
 
     diarize_df = pd.DataFrame(
         segments.itertracks(yield_label=True),
