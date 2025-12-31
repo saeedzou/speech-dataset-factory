@@ -57,8 +57,14 @@ def standardization(audio, target_sr=24000, verbose=False):
     print(f"waveform shape: {waveform.shape}") if verbose else None
     print("waveform in np ndarray, dtype=" + str(waveform.dtype)) if verbose else None
 
+    # Create a 16kHz mono version without standardization or gain change
+    raw_16k_audio = audio.set_frame_rate(16000).set_sample_width(2).set_channels(1)
+    raw_16k_waveform = np.array(raw_16k_audio.get_array_of_samples(), dtype=np.float32)
+
     return {
         "waveform": waveform,
         "name": name,
         "sample_rate": target_sr,
+        "raw_16k_waveform": raw_16k_waveform,
+        "raw_16k_sample_rate": 16000,
     }
