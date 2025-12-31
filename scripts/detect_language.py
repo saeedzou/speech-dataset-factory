@@ -14,7 +14,7 @@ import argparse
 def load_model_and_tokenizer(model_name="openai/whisper-large-v3"):
     """Loads the Whisper model, processor, and tokenizer."""
     processor = WhisperProcessor.from_pretrained(model_name)
-    model = WhisperForConditionalGeneration.from_pretrained(model_name, attn_implementation="sdpa")
+    model = WhisperForConditionalGeneration.from_pretrained(model_name, attn_implementation="sdpa", torch_dtype=torch.float16)
     tokenizer = WhisperTokenizer.from_pretrained(model_name)
     return processor, model, tokenizer
 
@@ -142,7 +142,7 @@ def main(input_manifest_path, output_manifest_path, batch_size, save_iterations)
             continue
 
         inputs = processor(batch_waveform.numpy(), sampling_rate=16000, return_tensors="pt")
-        input_features = inputs.input_features.to(device)
+        input_features = inputs.input_features.to(device, dtype=model.dtype)
 
         language_probs = detect_language(model, tokenizer, input_features, {'en', 'fa'})
 
